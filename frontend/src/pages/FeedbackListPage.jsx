@@ -35,31 +35,35 @@ export default function FeedbackListPage() {
   return (
     <div>
       <div className="summary-grid">
-        <div className="stat-box">
-          <div className="stat-value">{summary.total}</div>
+        <div className="stat-box stat-box--blue">
+          <div className="stat-value stat-value--blue">{summary.total}</div>
           <div className="stat-label">Total Submissions</div>
         </div>
 
-        <div className="stat-box" style={{ borderLeftColor: '#f59e0b' }}>
-          <div className="stat-value" style={{ color: '#d97706' }}>
-            {summary.average_rating} <span style={{ fontSize: '1.2rem' }}>★</span>
+        <div className="stat-box stat-box--orange">
+          <div className="stat-value stat-value--orange">
+            {summary.average_rating} ★
           </div>
-          <div className="stat-label">Average System Rating</div>
+          <div className="stat-label">Average Rating</div>
         </div>
       </div>
 
-      <div className="card">
-        <h2 className="card-title">Recent Student Feedback</h2>
+      <div className="card feedback-list-card">
+        <h2 className="card-title">📋 Recent Student Feedback</h2>
         <p className="card-subtitle">Transparent student reviews and ratings across all courses</p>
 
         {error && <div className="alert alert-error">{error}</div>}
 
         {loading ? (
-          <p style={{ textAlign: 'center', color: '#64748b', padding: '20px' }}>Loading feedback entries...</p>
+          <div className="empty-state">
+            <div className="empty-state-icon">⏳</div>
+            <p>Loading feedback entries...</p>
+          </div>
         ) : feedbackList.length === 0 ? (
-          <p style={{ textAlign: 'center', color: '#64748b', padding: '20px' }}>
-            No feedback entries submitted yet. Be the first student to leave feedback!
-          </p>
+          <div className="empty-state">
+            <div className="empty-state-icon">📝</div>
+            <p>No feedback entries submitted yet.<br />Be the first student to leave feedback!</p>
+          </div>
         ) : (
           <div>
             {feedbackList.map((item) => (
@@ -67,21 +71,23 @@ export default function FeedbackListPage() {
                 <div className="feedback-header">
                   <div>
                     <span className="course-badge">{item.course_code}</span>
-                    <strong style={{ marginLeft: '8px', fontSize: '1rem' }}>{item.course_title}</strong>
+                    <strong style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
+                      {item.course_title}
+                    </strong>
                   </div>
-                  <div style={{ color: '#f59e0b', fontSize: '1.1rem', fontWeight: 'bold' }}>
+                  <div className="feedback-stars">
                     {renderStars(item.rating)}
                   </div>
                 </div>
 
                 <div className="student-info">
-                  By <strong>{item.student_name}</strong> • Instructor: {item.course_instructor}
+                  By <strong>{item.student_name}</strong> · Instructor: {item.course_instructor}
                 </div>
 
                 <div className="feedback-comment">"{item.comment}"</div>
 
                 <div className="feedback-date">
-                  Submitted on {new Date(item.created_at).toLocaleString()}
+                  {new Date(item.created_at).toLocaleString()}
                 </div>
               </div>
             ))}
@@ -91,4 +97,3 @@ export default function FeedbackListPage() {
     </div>
   );
 }
-

@@ -4,6 +4,7 @@ export default function CourseFeedbackPage({ user, onFeedbackSubmitted }) {
   const [courses, setCourses] = useState([]);
   const [selectedCourseId, setSelectedCourseId] = useState('');
   const [rating, setRating] = useState(5);
+  const [hoverRating, setHoverRating] = useState(0);
   const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -62,8 +63,9 @@ export default function CourseFeedbackPage({ user, onFeedbackSubmitted }) {
       const data = await res.json();
 
       if (res.ok && data.success) {
-        setSuccessMessage('Thank you! Your feedback has been recorded successfully.');
+        setSuccessMessage('🎉 Thank you! Your feedback has been recorded successfully.');
         setComment('');
+        setRating(5);
         if (onFeedbackSubmitted) {
           onFeedbackSubmitted();
         }
@@ -77,11 +79,13 @@ export default function CourseFeedbackPage({ user, onFeedbackSubmitted }) {
     }
   };
 
+  const displayRating = hoverRating || rating;
+
   return (
-    <div className="card">
-      <h2 className="card-title">Submit Course Feedback</h2>
+    <div className="card feedback-form-card">
+      <h2 className="card-title">✏️ Submit Course Feedback</h2>
       <p className="card-subtitle">
-        Share your experience to help improve teaching quality and curriculum.
+        Share your honest experience to help improve teaching quality and curriculum design.
       </p>
 
       {error && <div className="alert alert-error">{error}</div>}
@@ -98,21 +102,22 @@ export default function CourseFeedbackPage({ user, onFeedbackSubmitted }) {
           >
             {courses.map((course) => (
               <option key={course.id} value={course.id}>
-                {course.code}: {course.title} ({course.instructor})
+                {course.code}: {course.title} — {course.instructor}
               </option>
             ))}
           </select>
         </div>
 
         <div className="form-group">
-          <label className="form-label">Rating (1 to 5 Stars)</label>
+          <label className="form-label">Rating</label>
           <div className="star-rating">
             {[1, 2, 3, 4, 5].map((star) => (
               <span
                 key={star}
-                className={`star ${star <= rating ? 'filled' : ''}`}
+                className={`star ${star <= displayRating ? 'filled' : ''}`}
                 onClick={() => setRating(star)}
-                style={{ cursor: 'pointer' }}
+                onMouseEnter={() => setHoverRating(star)}
+                onMouseLeave={() => setHoverRating(0)}
               >
                 ★
               </span>
@@ -121,10 +126,10 @@ export default function CourseFeedbackPage({ user, onFeedbackSubmitted }) {
         </div>
 
         <div className="form-group">
-          <label className="form-label">Feedback Comment</label>
+          <label className="form-label">Your Feedback</label>
           <textarea
             className="form-textarea"
-            placeholder="Write your constructive feedback about the course, lectures, or practical labs..."
+            placeholder="Share your thoughts about the lectures, assignments, labs, and overall learning experience..."
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             required
@@ -132,10 +137,9 @@ export default function CourseFeedbackPage({ user, onFeedbackSubmitted }) {
         </div>
 
         <button type="submit" className="btn-primary" disabled={loading}>
-          {loading ? 'Submitting...' : 'Submit Feedback'}
+          {loading ? '⏳ Submitting...' : '🚀 Submit Feedback'}
         </button>
       </form>
     </div>
   );
 }
-

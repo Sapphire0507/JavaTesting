@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export default function LoginPage({ onLoginSuccess }) {
-  const [step, setStep] = useState('phone'); // 'phone' or 'otp'
+  const [step, setStep] = useState('phone');
   const [phone, setPhone] = useState('');
   const [name, setName] = useState('');
   const [code, setCode] = useState('');
@@ -85,12 +85,12 @@ export default function LoginPage({ onLoginSuccess }) {
   };
 
   return (
-    <div className="card" style={{ maxWidth: '450px', margin: '40px auto' }}>
+    <div className="card login-card" style={{ maxWidth: '460px', margin: '40px auto' }}>
       <h2 className="card-title" style={{ textAlign: 'center' }}>
-        Student Portal Login
+        🔐 Student Portal
       </h2>
       <p className="card-subtitle" style={{ textAlign: 'center' }}>
-        Authenticate using Minimoth Phone OTP
+        Authenticate with your phone number via Minimoth OTP
       </p>
 
       {error && <div className="alert alert-error">{error}</div>}
@@ -111,7 +111,7 @@ export default function LoginPage({ onLoginSuccess }) {
           </div>
 
           <button type="submit" className="btn-primary" disabled={loading}>
-            {loading ? 'Sending OTP...' : 'Send OTP'}
+            {loading ? '⏳ Sending OTP...' : '📲 Send OTP'}
           </button>
         </form>
       ) : (
@@ -142,13 +142,13 @@ export default function LoginPage({ onLoginSuccess }) {
           </div>
 
           <button type="submit" className="btn-primary" disabled={loading}>
-            {loading ? 'Verifying...' : 'Verify OTP & Enter'}
+            {loading ? '⏳ Verifying...' : '✅ Verify & Enter'}
           </button>
 
           <button
             type="button"
             className="nav-btn"
-            style={{ width: '100%', marginTop: '10px' }}
+            style={{ width: '100%', marginTop: '12px', textAlign: 'center' }}
             onClick={() => {
               setStep('phone');
               setError('');
@@ -162,4 +162,3 @@ export default function LoginPage({ onLoginSuccess }) {
     </div>
   );
 }
-

@@ -13,20 +13,20 @@ export default function Navbar({ activeTab, setActiveTab, user, onLogout }) {
           className={`nav-btn ${activeTab === 'submit' ? 'active' : ''}`}
           onClick={() => setActiveTab('submit')}
         >
-          Submit Feedback
+          ✏️ Submit
         </button>
 
         <button
           className={`nav-btn ${activeTab === 'list' ? 'active' : ''}`}
           onClick={() => setActiveTab('list')}
         >
-          All Feedbacks
+          📋 Feedbacks
         </button>
 
         {user ? (
           <div className="user-badge">
-            <span>👤 {user.name} ({user.phone})</span>
-            <button className="logout-btn" onClick={onLogout} title="Logout">
+            <span>● {user.name}</span>
+            <button className="logout-btn" onClick={onLogout}>
               Logout
             </button>
           </div>
@@ -35,11 +35,10 @@ export default function Navbar({ activeTab, setActiveTab, user, onLogout }) {
             className={`nav-btn ${activeTab === 'login' ? 'active' : ''}`}
             onClick={() => setActiveTab('login')}
           >
-            Login / OTP
+            🔐 Login
           </button>
         )}
       </div>
     </header>
   );
 }
-
